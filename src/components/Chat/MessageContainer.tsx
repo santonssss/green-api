@@ -17,18 +17,22 @@ const MessageContainer: React.FC<MessageContainerProps> = ({
     onReceiveMessage: addMessage,
   });
 
+  const renderChatHeader = () => {
+    if (!selectedChat) {
+      return (
+        <span className="font-semibold italic text-red-400 text-xl ml-5">
+          Добавьте номер, а затем нажмите в списке чтобы отправить сообщение
+        </span>
+      );
+    }
+    return <span className="font-bold text-lg ml-5">{selectedChat}</span>;
+  };
+
   return (
     <div className="w-full relative bg-[#EFEAE2] px-3 py-3 flex flex-col h-full justify-end">
       <div className="absolute font-semibold left-0 top-0 w-full bg-white h-28 flex items-center">
-        {!selectedChat ? (
-          <span className="font-semibold italic text-red-400 text-xl ml-5">
-            Добавьте номер, а затем нажмите в списке чтобы отправить сообщение
-          </span>
-        ) : (
-          <span className="font-bold text-lg ml-5">{selectedChat}</span>
-        )}
+        {renderChatHeader()}
       </div>
-
       <div className="overflow-y-scroll flex flex-col space-y-2">
         {messages.map((msg) => (
           <div
@@ -49,7 +53,6 @@ const MessageContainer: React.FC<MessageContainerProps> = ({
           </div>
         ))}
       </div>
-
       <div className="mt-3 flex items-center space-x-3">
         <input
           type="text"
