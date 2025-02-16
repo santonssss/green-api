@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-
+import notification_music from "../assets/notification_music.mp3";
 interface Message {
   id: number;
   text: string;
   sender: "me" | "other";
+  timestamp: number;
 }
 
 interface UseReceiveMessagesProps {
@@ -43,8 +44,10 @@ const useReceiveMessages = ({
                 id: Date.now(),
                 text: messageData.textMessageData.textMessage,
                 sender: senderData.chatId === selectedChat ? "other" : "me",
+                timestamp: Date.now(),
               };
-
+              const audio = new Audio(notification_music);
+              audio.play();
               onReceiveMessage(incomingMessage);
             }
           }

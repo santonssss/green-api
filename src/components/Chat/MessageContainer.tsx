@@ -29,7 +29,7 @@ const MessageContainer: React.FC<MessageContainerProps> = ({
         )}
       </div>
 
-      <div className="overflow-y-auto flex flex-col space-y-2">
+      <div className="overflow-y-scroll flex flex-col space-y-2">
         {messages.map((msg) => (
           <div
             key={msg.id}
@@ -39,7 +39,13 @@ const MessageContainer: React.FC<MessageContainerProps> = ({
                 : "bg-white self-start"
             }`}
           >
-            {msg.text}
+            <div>{msg.text}</div>
+            <div className="text-gray-500 text-xs text-right mt-1">
+              {new Date(msg.timestamp).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </div>
           </div>
         ))}
       </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -7,16 +7,19 @@ interface Message {
   id: number;
   text: string;
   sender: "me" | "other";
+  timestamp: number;
 }
 
 export const useSendMessage = (selectedChat: string | null) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
   const navigate = useNavigate();
+  useEffect(() => {
+    setMessages([]);
+  }, [selectedChat]);
   const addMessage = (message: Message) => {
     setMessages((prevMessages) => [...prevMessages, message]);
   };
-
   const handleSendMessage = async () => {
     if (newMessage.trim() === "" || !selectedChat) return;
 
@@ -36,6 +39,7 @@ export const useSendMessage = (selectedChat: string | null) => {
         id: Date.now(),
         text: newMessage,
         sender: "me",
+        timestamp: Date.now(),
       });
 
       await axios.post(
